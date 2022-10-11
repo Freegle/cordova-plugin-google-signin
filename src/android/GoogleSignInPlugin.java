@@ -226,7 +226,7 @@ public class GoogleSignInPlugin extends CordovaPlugin {
         // Is this necessary?
         Log.d("Freegle", "signOut OneTap");
         mOneTapSigninClient = Identity.getSignInClient(mContext);
-        Task<GoogleSignInAccount> task = mOneTapSigninClient.signOut();
+        Task<Void> task = mOneTapSigninClient.signOut();
         if (task.isSuccessful()) {
           Log.d("Freegle", "signOut success");
         } else {
