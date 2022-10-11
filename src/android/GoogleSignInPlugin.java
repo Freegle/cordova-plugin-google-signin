@@ -112,7 +112,7 @@ public class GoogleSignInPlugin extends CordovaPlugin {
         } else if (requestCode == RC_ONE_TAP) {
             try {
                 SignInCredential credential = mOneTapSigninClient.getSignInCredentialFromIntent(data);
-                String jwt = credential.getGoogleIdToken()
+                String jwt = credential.getGoogleIdToken();
                 Log.d("Freegle", jwt);
                 String info = decode(jwt);
                 JSONObject userInfo = new JSONObject(info);
@@ -138,7 +138,7 @@ public class GoogleSignInPlugin extends CordovaPlugin {
     }
 
     private void isSignedIn(CallbackContext callbackContext) {
-        boolean isSignedIn = (account != null || mAuth.getCurrentUser() != null);
+        boolean isSignedIn = (account != null);
         callbackContext.success(getSuccessMessageInJsonString(String.valueOf(isSignedIn)));
     }
 
@@ -214,7 +214,6 @@ public class GoogleSignInPlugin extends CordovaPlugin {
             public void onComplete(@NonNull Task<Void> task) {
                 account = null;
                 mCallbackContext.success(getSuccessMessageInJsonString("Logged out"));
-                mAuth.signOut();
             }
         });
         mGoogleSignInClient.signOut().addOnFailureListener(new OnFailureListener() {
@@ -223,6 +222,16 @@ public class GoogleSignInPlugin extends CordovaPlugin {
                 mCallbackContext.error(getErrorMessageInJsonString(ex.getMessage()));
             }
         });
+
+        // Is this necessary?
+        Log.d("Freegle", "signOut OneTap");
+        mOneTapSigninClient = Identity.getSignInClient(mContext);
+        Task<GoogleSignInAccount> task = mOneTapSigninClient.signOut();
+        if (task.isSuccessful()) {
+          Log.d("Freegle", "signOut success");
+        } else {
+          Log.d("Freegle", "signOut fail");
+        }
     }
 
     private GoogleSignInOptions getGoogleSignInOptions() {
