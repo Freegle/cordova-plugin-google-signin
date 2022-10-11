@@ -2,15 +2,13 @@
 
 Cordova plugin for integrating Google Signin in Android &amp; iOS app. It is updated to the latest Google Signin SDK on iOS `6.1` with support for M1 chip. Android additionally supports One Tap Login.
 
+Based on https://github.com/russmedia-digital/cordova-plugin-google-signin with Firebase removed.
+
 ## Description
 
 The plugin allows you to authenticate users with Google Sign-In on iOS and Android. The API allows you to get email, display name, profile picture url, user id and idToken.
 
 ## Installation
-
-### Firebase Project
-
-Create a New Project in Firebase Console. Once the project is created, add an Android & iOS app to the project.
 
 ### Android app
 
@@ -38,12 +36,14 @@ Open the above link by replacing the project number (can be found from firebase 
 ## Install the plugin in your cordova project
 
 You should have the value for the REVERSED_CLIENT_ID and CLIENT_ID handy before you install the plugin.
+CLIENT_ID is the server-side "Web application" Client ID.
+The REVERSED_CLIENT_ID is no needed for Android.
 
-    cordova plugin add https://github.com/russmedia-digital/cordova-plugin-google-signin --save --variable REVERSED_CLIENT_ID=myreversedclientid --variable CLIENT_ID=yourclientid
+    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable REVERSED_CLIENT_ID=myreversedclientid --variable CLIENT_ID=yourclientid
 
 Example:
 
-    cordova plugin add https://github.com/russmedia-digital/cordova-plugin-google-signin n --save --variable REVERSED_CLIENT_ID="com.googleusercontent.apps.741002292512-79l1vjkim5tctosr07kcm61bb4frp7cr" --variable CLIENT_ID="741002292512-cs3emldkmt4vg5e1m9o6b3bpf8i6atfp.apps.googleusercontent.com"
+    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable REVERSED_CLIENT_ID="com.googleusercontent.apps.741002292512-79l1vjkim5tctosr07kcm61bb4frp7cr" --variable CLIENT_ID="741002292512-cs3emldkmt4vg5e1m9o6b3bpf8i6atfp.apps.googleusercontent.com"
 
 ## Usage
 
@@ -88,6 +88,16 @@ cordova.plugins.GoogleSignInPlugin.signOut(
 // Android only
 cordova.plugins.GoogleSignInPlugin.oneTapLogin(
   function (success) {
+    // {
+    //   "status": "success",
+    //   "message": {
+    //     "id": "",
+    //     "display_name": "",
+    //     "email": "",
+    //     "photo_url": "",
+    //     "id_token": ""
+    //   }
+    // }
     console.log(success);
   },
   function (error) {
