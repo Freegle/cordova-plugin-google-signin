@@ -100,7 +100,6 @@ public class GoogleSignInPlugin extends CordovaPlugin {
             try {
                 account = task.getResult(ApiException.class);
                 String jwt = account.getIdToken();
-                Log.d("Freegle", jwt);
                 String info = decode(jwt);
                 JSONObject userInfo = new JSONObject(info);
                 userInfo.put("id_token", jwt);
@@ -113,7 +112,6 @@ public class GoogleSignInPlugin extends CordovaPlugin {
             try {
                 SignInCredential credential = mOneTapSigninClient.getSignInCredentialFromIntent(data);
                 String jwt = credential.getGoogleIdToken();
-                Log.d("Freegle", jwt);
                 String info = decode(jwt);
                 JSONObject userInfo = new JSONObject(info);
                 userInfo.put("id_token", jwt);
@@ -223,15 +221,14 @@ public class GoogleSignInPlugin extends CordovaPlugin {
             }
         });
 
-        // Is this necessary?
-        Log.d("Freegle", "signOut OneTap");
+        /* // Does not seem to be necessary as above works
         mOneTapSigninClient = Identity.getSignInClient(mContext);
         Task<Void> task = mOneTapSigninClient.signOut();
         if (task.isSuccessful()) {
-          Log.d("Freegle", "signOut success");
+          Log.d("GoogleSignInPlugin", "signOut success");
         } else {
-          Log.d("Freegle", "signOut fail");
-        }
+          Log.d("GoogleSignInPlugin", "signOut fail");
+        }*/
     }
 
     private GoogleSignInOptions getGoogleSignInOptions() {
