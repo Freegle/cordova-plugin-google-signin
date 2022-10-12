@@ -51,19 +51,19 @@ Provide the bundle ID for the app and the name.
 The Bundle ID should be the same you used during creation of the cordova project. 
 In case you're not aware or have modified it, you can find the bundle ID by opening the iOS project in Xcode.
 
-Once created, copy the Client ID and use it as IOSAPP_CLIENT_ID.
-The Client ID can also be found in the plist file.
+Once created, copy the "iOS URL scheme" ie the reversed Client ID, and use it as REVERSED_IOSAPP_CLIENT_ID.
+This value can also be found in the REVERSED_CLIENT_ID in the plist file.
 
 The plist file should be downloaded and saved as `GoogleService-Info.plist`.
 
 
 ## Install the plugin in your cordova project
 
-You should have the value for the SERVER_CLIENT_ID and IOSAPP_CLIENT_ID handy before you install the plugin.
+You should have the value for the SERVER_CLIENT_ID and REVERSED_IOSAPP_CLIENT_ID handy before you install the plugin.
 SERVER_CLIENT_ID is the server-side "Web application" Client ID.
-IOSAPP_CLIENT_ID is the "iOS" app Client ID. The Android Client ID is not needed.
+REVERSED_IOSAPP_CLIENT_ID is the "iOS" app "iOS URL scheme". The Android Client ID is not needed.
 
-    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable SERVER_CLIENT_ID="serverclientid" --variable IOSAPP_CLIENT_ID="iosappclientid"
+    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable SERVER_CLIENT_ID="serverclientid" --variable REVERSED_IOSAPP_CLIENT_ID="reversediosappclientid"
 
 ## Usage
 
