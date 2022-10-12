@@ -12,9 +12,9 @@
             </feature>
         </config-file>
         
-        <preference name="CLIENT_ID" />
+        <preference name="SERVER_CLIENT_ID" />
         <config-file target="res/values/strings.xml" parent="/*">
-            <string name="default_client_id">$CLIENT_ID</string>
+            <string name="default_client_id">$SERVER_CLIENT_ID</string>
         </config-file> 
 
         <config-file parent="/*" target="AndroidManifest.xml" />
@@ -35,21 +35,37 @@
         </config-file>
         <source-file src="src/ios/GoogleSignInPlugin.m" />
 
-        <preference name="REVERSED_CLIENT_ID" />
+        <preference name="SERVER_CLIENT_ID" />
         <config-file target="*-Info.plist" parent="CFBundleURLTypes">
             <array>
               <dict>
                   <key>CFBundleTypeRole</key>
                   <string>Editor</string>
                   <key>CFBundleURLName</key>
-                  <string>REVERSED_CLIENT_ID</string>
+                  <string>SERVER_CLIENT_ID</string>
                   <key>CFBundleURLSchemes</key>
                   <array>
-                      <string>$REVERSED_CLIENT_ID</string>
+                      <string>$SERVER_CLIENT_ID</string>
                   </array>
               </dict>
             </array>
-          </config-file>
+        </config-file>
+
+        <preference name="IOSAPP_CLIENT_ID" />
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLName</key>
+                    <string>IOSAPP_CLIENT_ID</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>$IOSAPP_CLIENT_ID</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
 
           <podspec>
             <config>

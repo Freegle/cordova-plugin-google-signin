@@ -33,9 +33,9 @@
 
     NSURL* url = options[@"url"];
 
-    NSString* possibleReversedClientId = [url.absoluteString componentsSeparatedByString:@":"].firstObject;
+    NSString* possibleServerClientId = [url.absoluteString componentsSeparatedByString:@":"].firstObject;
 
-    if ([possibleReversedClientId isEqualToString:self.getreversedClientId] && self.isSigningIn) {
+    if ([possibleServerClientId isEqualToString:self.getServerClientId] && self.isSigningIn) {
         self.isSigningIn = NO;
         [GIDSignIn.sharedInstance handleURL:url];
     }
@@ -43,18 +43,23 @@
 
 - (void) signIn:(CDVInvokedUrlCommand*)command {
     _callbackId = command.callbackId;
-    NSString *reversedClientId = [self getreversedClientId];
+    NSString *serverClientId = [self getServerClientId];
+    NSString *iosappClientId = [self getiOSAppClientId];
 
-    if (reversedClientId == nil) {
-        NSDictionary *errorDetails = @{@"status": @"error", @"message": @"Could not find REVERSED_CLIENT_ID url scheme in app .plist"};
+    if (serverClientId == nil) {
+        NSDictionary *errorDetails = @{@"status": @"error", @"message": @"Could not find SERVER_CLIENT_ID url scheme in app .plist"};
+        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:_callbackId];
+        return;
+    }
+    if (iosappClientId == nil) {
+        NSDictionary *errorDetails = @{@"status": @"error", @"message": @"Could not find IOSAPP_CLIENT_ID url scheme in app .plist"};
         CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:_callbackId];
         return;
     }
 
-    NSString *clientId = [self reverseUrlScheme:reversedClientId];
-
-    GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:clientId];
+    GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:iosappClientId serverClientID:serverClientId];
     
     GIDSignIn *signIn = GIDSignIn.sharedInstance;
     
@@ -86,20 +91,30 @@
     }];
 }
 
-- (NSString*) reverseUrlScheme:(NSString*)scheme {
-    NSArray* originalArray = [scheme componentsSeparatedByString:@"."];
-    NSArray* reversedArray = [[originalArray reverseObjectEnumerator] allObjects];
-    NSString* reversedString = [reversedArray componentsJoinedByString:@"."];
-    return reversedString;
-}
-
-- (NSString*) getreversedClientId {
+- (NSString*) getServerClientId {
     NSArray* URLTypes = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleURLTypes"];
 
     if (URLTypes != nil) {
         for (NSDictionary* dict in URLTypes) {
             NSString *urlName = dict[@"CFBundleURLName"];
-            if ([urlName isEqualToString:@"REVERSED_CLIENT_ID"]) {
+            if ([urlName isEqualToString:@"SERVER_CLIENT_ID"]) {
+                NSArray* URLSchemes = dict[@"CFBundleURLSchemes"];
+                if (URLSchemes != nil) {
+                    return URLSchemes[0];
+                }
+            }
+        }
+    }
+    return nil;
+}
+
+- (NSString*) getiOSAppClientId {
+    NSArray* URLTypes = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleURLTypes"];
+
+    if (URLTypes != nil) {
+        for (NSDictionary* dict in URLTypes) {
+            NSString *urlName = dict[@"CFBundleURLName"];
+            if ([urlName isEqualToString:@"IOSAPP_CLIENT_ID"]) {
                 NSArray* URLSchemes = dict[@"CFBundleURLSchemes"];
                 if (URLSchemes != nil) {
                     return URLSchemes[0];

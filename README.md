@@ -1,18 +1,39 @@
 # cordova-plugin-google-signin
 
-Cordova plugin for integrating Google Signin in Android &amp; iOS app. It is updated to the latest Google Signin SDK on iOS `6.1` with support for M1 chip. Android additionally supports One Tap Login.
+Cordova plugin for integrating Sign in with Google in Android &amp; iOS app. 
+It is updated to the latest Google Signin SDK on iOS `6.1` with support for M1 chip.
 
-Based on https://github.com/russmedia-digital/cordova-plugin-google-signin with Firebase removed.
+Based on https://github.com/russmedia-digital/cordova-plugin-google-signin with Firebase removed and Client IDs renamed and rationalised.
 
 ## Description
 
-The plugin allows you to authenticate users with Google Sign-In on iOS and Android. The API allows you to get email, display name, profile picture url, user id and idToken.
+The plugin allows you to authenticate users with Sign in with Google on iOS and Android. 
+The API allows you to get email, display name, profile picture url, user id and idToken.
+Android additionally supports One Tap Login.
 
 ## Installation
 
-### Android app
+### Google Cloud console: Oauth Requests
 
-Register app by providing the package name, nickname and SHA-1 key. The package name should be the same you used during creation of the Corddova project. If you're not aware about the package name or have modified it, open the android project in Android Studio and note the applicationId from app module's build.gradle file.
+Go to https://console.cloud.google.com/apis/credentials/consent and select your project at the top if need be.
+Then select "External" and fill out the details on the next page.
+
+### Google Cloud console: credentials
+
+Go to https://console.cloud.google.com/apis/credentials and select your project at the top if need be.
+Create "Web application", "Android" and "IOS" OAuth 2.0 Client IDs.
+
+### Web application credentials
+
+Once created, copy the Client ID to use as the SERVER_CLIENT_ID.
+
+Your app can pass a received "id_token" to the server for it to use with this Client ID.
+
+### Android app credentials
+
+Register app by providing the package name, nickname and SHA-1 key. 
+The package name should be the same you used during creation of the Cordova project. 
+If you're not aware about the package name or have modified it, open the android project in Android Studio and note the applicationId from app module's build.gradle file.
 
 You can get the SHA-1 key using the following command, debug SHA-1:
 
@@ -24,26 +45,25 @@ For the debug keystore, you can use the below command (default password is "andr
 
 You'll need to add the SHA-1 for the release keystore for the production build to work. Use the above commmand by replacing the path to your release keystore file.
 
-### iOS App
+### iOS App credentials
 
-Provide the bundle ID for the app and the name. Download the `GoogleService-Info.plist` file, open the plist file in a text editor and note the value of REVERSED_CLIENT_ID from it. The Bundle ID should be the same you used during creation of the cordova project. In case you're not aware or have modified it, you can find the bundle ID by opening the iOS project in Xcode.
+Provide the bundle ID for the app and the name.
+The Bundle ID should be the same you used during creation of the cordova project. 
+In case you're not aware or have modified it, you can find the bundle ID by opening the iOS project in Xcode.
 
-### Oauth Requests
+Once created, copy the Client ID and use it as IOSAPP_CLIENT_ID.
+The Client ID can also be found in the plist file.
 
-This app needs to be configured to make OAuth requests. To do that, set up the apps OAuth consent screen in the Google Cloud Console https://console.developers.google.com/apis/credentials/consent?project=${your_project_number}
-Open the above link by replacing the project number (can be found from firebase console's project settings), make sure the "OAuth consent screen" is selected in the left pane. Then select "External" and fill out the details on the next page.
+The plist file should be downloaded and saved as `GoogleService-Info.plist`.
+
 
 ## Install the plugin in your cordova project
 
-You should have the value for the REVERSED_CLIENT_ID and CLIENT_ID handy before you install the plugin.
-CLIENT_ID is the server-side "Web application" Client ID.
-The REVERSED_CLIENT_ID is no needed for Android.
+You should have the value for the SERVER_CLIENT_ID and IOSAPP_CLIENT_ID handy before you install the plugin.
+SERVER_CLIENT_ID is the server-side "Web application" Client ID.
+IOSAPP_CLIENT_ID is the "iOS" app Client ID. The Android Client ID is not needed.
 
-    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable REVERSED_CLIENT_ID=myreversedclientid --variable CLIENT_ID=yourclientid
-
-Example:
-
-    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable REVERSED_CLIENT_ID="com.googleusercontent.apps.741002292512-79l1vjkim5tctosr07kcm61bb4frp7cr" --variable CLIENT_ID="741002292512-cs3emldkmt4vg5e1m9o6b3bpf8i6atfp.apps.googleusercontent.com"
+    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable SERVER_CLIENT_ID="serverclientid" --variable IOSAPP_CLIENT_ID="iosappclientid"
 
 ## Usage
 
