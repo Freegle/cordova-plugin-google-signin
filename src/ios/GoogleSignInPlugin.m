@@ -93,15 +93,14 @@
     }];
 }
 
+/* Just the same as signIn so removed
 - (void) oneTapLogin:(CDVInvokedUrlCommand*)command {
     _callbackId = command.callbackId;
 
-    //NSDictionary *errorDetails = @{@"status": @"error", @"message": @"oneTapLogin"};
-    //CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
-    //[self.commandDelegate sendPluginResult:pluginResult callbackId:_callbackId];
+    GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:iOSappClientId serverClientID:serverClientId];
 
     GIDSignIn *signIn = GIDSignIn.sharedInstance;
-    [signIn signInWithConfiguration:signInConfig presentingViewController:self callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+    [signIn signInWithConfiguration:config presentingViewController:self callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
         if (error) {
             NSDictionary *errorDetails = @{@"status": @"error", @"message": error.localizedDescription};
             CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
@@ -132,6 +131,7 @@
         }
   }];
 }
+*/
 
 - (NSString*) reverseUrlScheme:(NSString*)scheme {
     NSArray* originalArray = [scheme componentsSeparatedByString:@"."];
