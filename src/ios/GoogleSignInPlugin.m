@@ -93,6 +93,46 @@
     }];
 }
 
+- (void) oneTapLogin:(CDVInvokedUrlCommand*)command {
+    _callbackId = command.callbackId;
+
+    //NSDictionary *errorDetails = @{@"status": @"error", @"message": @"oneTapLogin"};
+    //CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
+    //[self.commandDelegate sendPluginResult:pluginResult callbackId:_callbackId];
+
+    GIDSignIn *signIn = GIDSignIn.sharedInstance;
+    [signIn signInWithConfiguration:signInConfig presentingViewController:self callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+        if (error) {
+            NSDictionary *errorDetails = @{@"status": @"error", @"message": error.localizedDescription};
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:self->_callbackId];
+        } else if (user == nil) {
+            NSDictionary *errorDetails = @{@"status": @"error", @"message": @"No user returned"};
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:self->_callbackId];
+        } else {
+            NSString *email = user.profile.email;
+            NSString *userId = user.userID;
+            NSURL *imageUrl = [user.profile imageURLWithDimension:120]; // TODO pass in img size as param, and try to sync with Android
+            NSDictionary *result = @{
+                           @"email"            : email,
+                           @"id"               : userId,
+                           @"id_token"         : user.authentication.idToken,
+                           @"display_name"     : user.profile.name       ? : [NSNull null],
+                           @"given_name"       : user.profile.givenName  ? : [NSNull null],
+                           @"family_name"      : user.profile.familyName ? : [NSNull null],
+                           @"photo_url"        : imageUrl ? imageUrl.absoluteString : [NSNull null],
+                           };
+
+
+            NSDictionary *response = @{@"message": result, @"status": @"success"};
+            
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [self toJSONString:response]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:self->_callbackId];
+        }
+  }];
+}
+
 - (NSString*) reverseUrlScheme:(NSString*)scheme {
     NSArray* originalArray = [scheme componentsSeparatedByString:@"."];
     NSArray* reversedArray = [[originalArray reverseObjectEnumerator] allObjects];

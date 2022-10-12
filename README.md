@@ -13,7 +13,7 @@ Android additionally supports One Tap Login.
 
 ## Installation
 
-### Google Cloud console: Oauth Requests
+### Google Cloud console: OAuth Requests
 
 Go to https://console.cloud.google.com/apis/credentials/consent and select your project at the top if need be.
 Then select "External" and fill out the details on the next page.
@@ -52,7 +52,7 @@ The Bundle ID should be the same you used during creation of the cordova project
 In case you're not aware or have modified it, you can find the bundle ID by opening the iOS project in Xcode.
 
 Once created, copy the "iOS URL scheme" ie the reversed Client ID, and use it as REVERSED_IOSAPP_CLIENT_ID.
-This value can also be found in the REVERSED_CLIENT_ID in the plist file.
+(This value can also be found in the REVERSED_CLIENT_ID in the plist file.)
 
 The plist file should be downloaded and saved as `GoogleService-Info.plist`.
 
@@ -61,7 +61,7 @@ The plist file should be downloaded and saved as `GoogleService-Info.plist`.
 
 You should have the value for the SERVER_CLIENT_ID and REVERSED_IOSAPP_CLIENT_ID handy before you install the plugin.
 SERVER_CLIENT_ID is the server-side "Web application" Client ID.
-REVERSED_IOSAPP_CLIENT_ID is the "iOS" app "iOS URL scheme". The Android Client ID is not needed.
+REVERSED_IOSAPP_CLIENT_ID is the "iOS" app "iOS URL scheme", which is only needed for iOS. The Android Client ID is not needed for either build.
 
     cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable SERVER_CLIENT_ID="serverclientid" --variable REVERSED_IOSAPP_CLIENT_ID="reversediosappclientid"
 
