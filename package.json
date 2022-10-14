@@ -1,17 +1,21 @@
 {
   "name": "cordova-plugin-google-signin",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "author": "Mahendra Liya",
   "contributors": [
     {
       "name": "Gabriel Petchesi",
       "email": "pghoratiu@gmail.com"
+    },
+    {
+      "name": "Chris Cant",
+      "email": "geeks@ilovefreegle.org"
     }
   ],
   "description": "Use your Google account to authenticated in your cordova mobile app",
   "repository": {
     "type": "git",
-    "url": "git@github.com:pghoratiu/cordova-plugin-google-signin.git"
+    "url": "git@github.com:Freegle/cordova-plugin-google-signin.git",
   },
   "cordova": {
     "id": "com.devapps",

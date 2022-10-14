@@ -33,9 +33,9 @@
 
     NSURL* url = options[@"url"];
 
-    NSString* possibleServerClientId = [url.absoluteString componentsSeparatedByString:@":"].firstObject;
+    NSString* possibleReversedServerClientId = [url.absoluteString componentsSeparatedByString:@":"].firstObject;
 
-    if ([possibleServerClientId isEqualToString:self.getServerClientId] && self.isSigningIn) {
+    if ([possibleReversedServerClientId isEqualToString:self.getReversedServerClientId] && self.isSigningIn) {
         self.isSigningIn = NO;
         [GIDSignIn.sharedInstance handleURL:url];
     }
@@ -43,11 +43,11 @@
 
 - (void) signIn:(CDVInvokedUrlCommand*)command {
     _callbackId = command.callbackId;
-    NSString *serverClientId = [self getServerClientId];
-    NSString *reversediOSappClientId = [self getreversediOSAppClientId];
+    NSString *reversedServerClientId = [self getReversedServerClientId];
+    NSString *reversediOSappClientId = [self getReversediOSAppClientId];
 
-    if (serverClientId == nil) {
-        NSDictionary *errorDetails = @{@"status": @"error", @"message": @"Could not find SERVER_CLIENT_ID url scheme in app .plist"};
+    if (reversedServerClientId == nil) {
+        NSDictionary *errorDetails = @{@"status": @"error", @"message": @"Could not find REVERSED_SERVER_CLIENT_ID url scheme in app .plist"};
         CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[self toJSONString:errorDetails]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:_callbackId];
         return;
@@ -59,6 +59,7 @@
         return;
     }
 
+    NSString *serverClientId = [self reverseUrlScheme:reversedServerClientId];
     NSString *iOSappClientId = [self reverseUrlScheme:reversediOSappClientId];
 
     GIDConfiguration *config = [[GIDConfiguration alloc] initWithClientID:iOSappClientId serverClientID:serverClientId];
@@ -140,13 +141,13 @@
     return reversedString;
 }
 
-- (NSString*) getServerClientId {
+- (NSString*) getReversedServerClientId {
     NSArray* URLTypes = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleURLTypes"];
 
     if (URLTypes != nil) {
         for (NSDictionary* dict in URLTypes) {
             NSString *urlName = dict[@"CFBundleURLName"];
-            if ([urlName isEqualToString:@"SERVER_CLIENT_ID"]) {
+            if ([urlName isEqualToString:@"REVERSED_SERVER_CLIENT_ID"]) {
                 NSArray* URLSchemes = dict[@"CFBundleURLSchemes"];
                 if (URLSchemes != nil) {
                     return URLSchemes[0];
@@ -157,7 +158,7 @@
     return nil;
 }
 
-- (NSString*) getreversediOSAppClientId {
+- (NSString*) getReversediOSAppClientId {
     NSArray* URLTypes = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleURLTypes"];
 
     if (URLTypes != nil) {
