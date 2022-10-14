@@ -60,13 +60,16 @@ Once created, copy the "iOS URL scheme" ie the reversed Client ID, and use it as
 
 The plist file should be downloaded and saved as `GoogleService-Info.plist`.
 
-Get the REVERSED_SERVER_CLIENT_ID from from the "Web application" Client ID as described above.
+Get the REVERSED_SERVER_CLIENT_ID from the "Web application" Client ID as described above.
 
 ## Install the plugin in your cordova project
 
-You should have the value for the SERVER_CLIENT_ID and REVERSED_IOSAPP_CLIENT_ID handy before you install the plugin.
-SERVER_CLIENT_ID is the server-side "Web application" Client ID.
-REVERSED_IOSAPP_CLIENT_ID is the "iOS" app "iOS URL scheme", which is only needed for iOS. The Android Client ID is not needed for either build.
+You should have the value for the SERVER_CLIENT_ID, REVERSED_SERVER_CLIENT_ID and REVERSED_IOSAPP_CLIENT_ID handy before you install the plugin.
+
+* SERVER_CLIENT_ID is the server-side "Web application" Client ID.
+* REVERSED_SERVER_CLIENT_ID is the reversed server-side "Web application" Client ID.
+* REVERSED_IOSAPP_CLIENT_ID is the "iOS" app "iOS URL scheme", which is only needed for iOS.
+* The Android Client ID is not needed for either build.
 
 Android only:
 
