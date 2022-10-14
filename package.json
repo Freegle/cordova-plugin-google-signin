@@ -15,7 +15,7 @@
   "description": "Use your Google account to authenticated in your cordova mobile app",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Freegle/cordova-plugin-google-signin.git",
+    "url": "git@github.com:Freegle/cordova-plugin-google-signin.git"
   },
   "cordova": {
     "id": "com.devapps",
