@@ -25,7 +25,11 @@ Create "Web application", "Android" and "IOS" OAuth 2.0 Client IDs.
 
 ### Web application credentials
 
-Once created, copy the Client ID to use as the SERVER_CLIENT_ID.
+Once created, copy the Client ID to use as the Android SERVER_CLIENT_ID.
+
+For iOS you'll need to make a REVERSED_SERVER_CLIENT_ID eg as follows, where xxx-yyy is your long two-part fragment:
+* Change SERVER_CLIENT_ID "xxx-yyy.apps.googleusercontent.com"
+* To REVERSED_SERVER_CLIENT_ID ie "com.googleusercontent.apps.xxx-yyy",
 
 Your app can pass a received "id_token" to the server for it to use with this Client ID.
 
@@ -56,6 +60,7 @@ Once created, copy the "iOS URL scheme" ie the reversed Client ID, and use it as
 
 The plist file should be downloaded and saved as `GoogleService-Info.plist`.
 
+Get the REVERSED_SERVER_CLIENT_ID from from the "Web application" CLient ID as described above.
 
 ## Install the plugin in your cordova project
 
@@ -63,7 +68,18 @@ You should have the value for the SERVER_CLIENT_ID and REVERSED_IOSAPP_CLIENT_ID
 SERVER_CLIENT_ID is the server-side "Web application" Client ID.
 REVERSED_IOSAPP_CLIENT_ID is the "iOS" app "iOS URL scheme", which is only needed for iOS. The Android Client ID is not needed for either build.
 
-    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable SERVER_CLIENT_ID="serverclientid" --variable REVERSED_IOSAPP_CLIENT_ID="reversediosappclientid"
+Android only:
+
+    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable SERVER_CLIENT_ID="serverclientid"
+
+iOS only:
+
+    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable REVERSED_SERVER_CLIENT_ID="reversedserverclientid" --variable REVERSED_IOSAPP_CLIENT_ID="reversediosappclientid"
+
+Both:
+
+    cordova plugin add https://github.com/Freegle/cordova-plugin-google-signin --save --variable SERVER_CLIENT_ID="serverclientid" REVERSED_SERVER_CLIENT_ID="reversedserverclientid" --variable REVERSED_IOSAPP_CLIENT_ID="reversediosappclientid"
+
 
 ## Usage
 
