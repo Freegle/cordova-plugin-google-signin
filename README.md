@@ -8,8 +8,10 @@ Based on https://github.com/russmedia-digital/cordova-plugin-google-signin with 
 ## Description
 
 The plugin allows you to authenticate users with Sign in with Google on iOS and Android. 
-The API allows you to get email, display name, profile picture url, user id and idToken.
+The API allows you to get email, display name, profile picture url, user id and id_token (idToken).
 Android additionally supports One Tap Login.
+
+Your app can pass a received "id_token" to your server for it to use with the "Web application" Client ID.
 
 ## Installation
 
@@ -30,8 +32,6 @@ Once created, copy the Client ID to use as the Android SERVER_CLIENT_ID.
 For iOS you'll need to make a REVERSED_SERVER_CLIENT_ID eg as follows, where xxx-yyy is your long two-part fragment:
 * Change SERVER_CLIENT_ID "xxx-yyy.apps.googleusercontent.com"
 * To REVERSED_SERVER_CLIENT_ID ie "com.googleusercontent.apps.xxx-yyy",
-
-Your app can pass a received "id_token" to the server for it to use with this Client ID.
 
 ### Android app credentials
 
@@ -60,7 +60,7 @@ Once created, copy the "iOS URL scheme" ie the reversed Client ID, and use it as
 
 The plist file should be downloaded and saved as `GoogleService-Info.plist`.
 
-Get the REVERSED_SERVER_CLIENT_ID from from the "Web application" CLient ID as described above.
+Get the REVERSED_SERVER_CLIENT_ID from from the "Web application" Client ID as described above.
 
 ## Install the plugin in your cordova project
 
